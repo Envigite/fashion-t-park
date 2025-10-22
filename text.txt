@@ -1,0 +1,32 @@
+/mi-tienda
+  /frontend        <-- TypeScript puro
+    package.json
+    tsconfig.json
+    /src
+      main.ts       <-- punto de entrada del frontend
+      /utils        <-- funciones helper (opcional)
+      /styles       <-- CSS / Tailwind si quieres
+    index.html      <-- HTML principal donde se incluye main.js
+
+  /backend         <-- Node + TypeScript + MVC
+    package.json
+    tsconfig.json
+    /src
+      index.ts       <-- punto de entrada del servidor
+      /controllers   <-- lógica que recibe las rutas
+        productController.ts
+        userController.ts
+      /models        <-- definición de datos y DB
+        productModel.ts
+        userModel.ts
+      /routes        <-- endpoints
+        productRoutes.ts
+        userRoutes.ts
+      /services      <-- lógica de negocio extra (opcional)
+        paymentService.ts
+      /middlewares   <-- auth, logging, validaciones
+        authMiddleware.ts
+      /config        <-- configuración general
+        db.ts        <-- conexión a AWS RDS
+        env.ts       <-- variables de entorno
+      /utils         <-- helpers generales
