@@ -6,24 +6,29 @@
     <title>Fashion't Park</title>
     <link rel="stylesheet" href="../assets/styles/output.css">
 </head>
-<body>
-    <header class="flex items-center justify-between">
+<body class="text-white min-h-dvh bg-gradient-to-b from-gray-700 via-sky-900 to-cyan-950">
+    <header class="flex items-center justify-between w-full px-6 py-3 border-b border-gray-300">
         <div id="logo">
-            <img src="assets/img/logoFP.png" alt="Logo de la tienda" width="120" height="120">
+            <img src="assets/img/logoFP.png" alt="Logo de la tienda" class="w-12 h-auto">
         </div>
-        <div id="busqueda">
-            <input type="text" placeholder="Buscar productos..." id="barra-busqueda">
-            <button id="btnBuscar">
-                <img src="./assets/icons/magnifying-glass.svg" alt="Buscar" width="20">
+        <div id="busqueda" class="flex items-center flex-1 max-w-md mx-6">
+            <input type="text" placeholder="Buscar productos..." id="barra-busqueda"
+            class="flex-1 border border-gray-300 rounded-l-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <button id="btnBuscar" class="bg-gray-200 border border-gray-300
+            rounded-r-md px-3 py-2 hover:bg-gray-300 cursor-pointer">
+                <img src="./assets/icons/magnifying-glass.svg" alt="Buscar" class="w-5 h-5">
             </button>
         </div>
-        <div id="carrito">
-            <button id="btnCarrito">
-                <img src="assets/icons/shopping-cart.svg" alt="Carrito" width="24">
+        <div id="carrito" class="mr-4">
+            <button id="btnCarrito" class="p-2 hover:bg-gray-200 rounded-full transition-all duration-300 ">
+                <img src="assets/icons/shopping-cart.svg" alt="Carrito" class="w-6 h-6">
             </button>
         </div>
         <div id="usuario">
-            <button id="btnUsuario">Iniciar sesión / Registrarse</button>
+            <button id="btnUsuario" class="px-4 py-2 bg-gray-800 text-white
+            rounded-md hover:bg-gray-700 transition">
+                Iniciar sesión / Registrarse
+            </button>
         </div>
     </header>
     <h1 class="text-4xl">Inicio</h1>

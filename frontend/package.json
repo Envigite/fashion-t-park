@@ -5,12 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/assets/styles/output.css --watch"
+    "dev:css": "npx @tailwindcss/cli -i ./src/input.css -o ./public/assets/styles/output.css --watch",
+    "dev:ts": "npx tsc --watch",
+    "dev": "concurrently \"npm run dev:ts\" \"npm run dev:css\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "typescript": "^5.9.3"
   },
   "dependencies": {
