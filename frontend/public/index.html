@@ -31,8 +31,29 @@
             </button>
         </div>
     </header>
+
+    <button id="btnPost" class="border border-amber-300">Crear producto</button>
+<script>
+document.getElementById("btnPost").addEventListener("click", async () => {
+  const newProduct = {
+    name: "Gorro de lana",
+    price: 12990,
+    image_url: "https://example.com/gorro.jpg",
+  };
+
+  const res = await fetch("http://localhost:3000/api/products", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(newProduct),
+  });
+
+  const data = await res.json();
+  console.log("Producto creado:", data);
+});
+</script>
+
     <h1 class="text-4xl">Inicio</h1>
-    <button id="btnCarrito">Ir al carrito</button>
+    <main id="product-list"></main>
     <script type="module" src="../dist/main.js"></script>
 </body>
 </html>
