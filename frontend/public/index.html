@@ -25,35 +25,22 @@
             </button>
         </div>
         <div id="usuario">
-            <button id="btnUsuario" class="px-4 py-2 bg-gray-800 text-white
-            rounded-md hover:bg-gray-700 transition">
-                Iniciar sesión / Registrarse
+            <button id="btnUsuario" class="px-4 py-2 bg-gray-800 text-white rounded-md hover:bg-gray-700 transition">
+                Iniciar sesión
+            </button>
+
+            <button id="btnRegister" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 transition hidden">
+                Crear cuenta
             </button>
         </div>
+        <a id="adminLink" class="hidden text-sm px-3 py-1 bg-red-600 rounded cursor-pointer">
+            Administrar
+        </a>
+        <button id="btnLogout" class="hidden px-3 py-1 bg-gray-700 rounded text-white text-sm">
+            Cerrar sesión
+        </button>
     </header>
-
-    <button id="btnPost" class="border border-amber-300">Crear producto</button>
-<script>
-document.getElementById("btnPost").addEventListener("click", async () => {
-  const newProduct = {
-    name: "Gorro de lana",
-    price: 12990,
-    image_url: "https://example.com/gorro.jpg",
-  };
-
-  const res = await fetch("http://localhost:3000/api/products", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newProduct),
-  });
-
-  const data = await res.json();
-  console.log("Producto creado:", data);
-});
-</script>
-
-    <h1 class="text-4xl">Inicio</h1>
     <main id="product-list"></main>
     <script type="module" src="../dist/main.js"></script>
-</body>
+</body> 
 </html>

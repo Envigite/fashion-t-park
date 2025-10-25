@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Fashion't Park</title>
+  <link rel="stylesheet" href="../assets/styles/output.css">
+</head>
+<body class="min-h-screen bg-gray-500 p-6 flex flex-col items-center justify-center pb-96">
+  <header class="w-full max-w-2xl mb-8 text-center">
+    <h1 class="text-3xl font-bold text-gray-100 mb-4">Panel de Administración</h1>
+    <a href="/" class="text-blue-200 hover:underline">← Volver al inicio</a>
+  </header>
+
+  <main class="w-full max-w-md bg-amber-100 shadow-lg rounded-lg p-6">
+    <form id="productForm" class="flex flex-col gap-4">
+      <input type="text" id="name" placeholder="Nombre del producto" class="border p-2 rounded" required />
+      <textarea id="description" placeholder="Descripción del producto" class="border p-2 rounded"></textarea>
+      <input type="number" id="price" placeholder="Precio" class="border p-2 rounded" required />
+      <input type="number" id="stock" placeholder="Stock disponible" class="border p-2 rounded" min="0" />
+      <input type="text" id="category" placeholder="Categoría (opcional)" class="border p-2 rounded" />
+      <input type="text" id="image_url" placeholder="URL de la imagen (opcional)" class="border p-2 rounded" />
+
+      <button type="submit" class="bg-gray-800 text-white p-2 rounded hover:bg-gray-600 transition">
+        Crear producto
+      </button>
+    </form>
+    <h2 class="text-center text-black mt-8">Usuarios</h2>
+    <div id="user-list" class="mt-4 text-sm text-gray-900"></div>
+    <div id="result" class="mt-4 text-center text-sm text-gray-900"></div>
+  </main>
+
+  <script type="module" src="../dist/admin.js"></script>
+</body>
+</html>

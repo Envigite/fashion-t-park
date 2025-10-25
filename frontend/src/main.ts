@@ -1,34 +1,82 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const btnCarrito = document.getElementById('btnCarrito')
-    const btnInicio = document.getElementById('btnInicio')
+import { Product } from "./types/product";
 
-    if (btnCarrito) {
-        btnCarrito.addEventListener("click", () => {
-            window.location.href = "/carrito"
-        })
+document.addEventListener("DOMContentLoaded", async () => {
+  const role = localStorage.getItem("role");
+  const username = localStorage.getItem("username");
+
+  const btnCarrito = document.getElementById("btnCarrito") as HTMLButtonElement | null;
+  const btnInicio = document.getElementById("btnInicio") as HTMLButtonElement | null;
+  const btnLogout = document.getElementById("btnLogout") as HTMLButtonElement | null;
+  const btnUsuario = document.getElementById("btnUsuario") as HTMLButtonElement | null;
+  const btnRegister = document.getElementById("btnRegister") as HTMLButtonElement | null;
+  const adminLink = document.getElementById("adminLink");
+
+  // Mostrar nombre si está logueado
+  if (btnUsuario && username) {
+    btnUsuario.textContent = username;
+  }
+
+  // Mostrar botón admin si corresponde
+  if (adminLink) {
+    adminLink.style.display = role === "admin" ? "block" : "none";
+    adminLink.addEventListener("click", () => (window.location.href = "/admin"));
+  }
+
+  // Navegación
+  btnCarrito?.addEventListener("click", () => (window.location.href = "/carrito"));
+  btnInicio?.addEventListener("click", () => (window.location.href = "/"));
+
+  // Login / Register
+  btnUsuario?.addEventListener("click", () => {
+    if (username) {
+      // aquí luego podrías llevar a perfil
+    } else {
+      window.location.href = "/login";
     }
+  });
 
-    if (btnInicio) {
-        btnInicio.addEventListener("click", () => {
-            window.location.href = "/"
-        })
+  if (btnRegister) {
+    btnRegister.style.display = username ? "none" : "block";
+    btnRegister.addEventListener("click", () => (window.location.href = "/register"));
+  }
+
+  // Logout
+  if (btnLogout) {
+    btnLogout.style.display = username ? "block" : "none";
+    btnLogout.addEventListener("click", async () => {
+      await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+      localStorage.clear();
+      window.location.href = "/";
+    });
+  }
+
+  // Cargar productos
+  async function loadProducts() {
+    try {
+      const res = await fetch("/api/products");
+      if (!res.ok) throw new Error("Error al cargar productos");
+
+      const products: Product[] = await res.json();
+      const container = document.getElementById("product-list") as HTMLDivElement | null;
+      if (!container) return;
+
+      container.innerHTML = products
+        .map(
+          (p) => `
+          <div class="border border-gray-600 rounded-lg p-4 text-center bg-gray-800 text-white">
+            <img src="${p.image_url || "/assets/img/logoFP.png"}" alt="${p.name}" class="mx-auto w-24 h-24 object-cover rounded-md mb-2"/>
+            <h3 class="text-lg font-semibold">${p.name}</h3>
+            <p class="text-sm text-gray-300">${p.description ?? "Sin descripción"}</p>
+            <p class="mt-2 font-bold text-cyan-400">$${p.price}</p>
+            <p class="text-sm text-gray-400">Stock: ${p.stock ?? "N/A"}</p>
+            <p class="text-sm text-gray-400">Categoría: ${p.category ?? "General"}</p>
+          </div>`
+        )
+        .join("");
+    } catch (error) {
+      console.error("Error:", error);
     }
-})
+  }
 
-async function loadProducts() {
-   const res = await fetch('/api/products');
-    const products = await res.json();
-    
-    const container = document.getElementById('product-list')!;
-    container.innerHTML = products.map(
-        (p: any) =>
-            `<div>
-                <img src="${p.image_url}" alt="${p.name}" width="100" />
-                <h3>${p.name}</h3>
-                <p>$${p.price}</p>
-            </div>`
-    )
-    .join("");
-}
-
-loadProducts();
+  await loadProducts();
+});
