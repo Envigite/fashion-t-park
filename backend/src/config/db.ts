@@ -18,6 +18,6 @@ export const pool = new Pool({
   ssl: isProduction ? {
     ca: fs.readFileSync(caPath).toString(),
   } : {
-    rejectUnauthorized: false, // evita error con el certificado de Amazon
+    rejectUnauthorized: false,
   },
 });

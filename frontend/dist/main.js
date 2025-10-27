@@ -10,51 +10,46 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 document.addEventListener("DOMContentLoaded", () => __awaiter(void 0, void 0, void 0, function* () {
     const role = localStorage.getItem("role");
     const username = localStorage.getItem("username");
+    const isLogged = Boolean(username);
     const btnCarrito = document.getElementById("btnCarrito");
     const btnInicio = document.getElementById("btnInicio");
     const btnLogout = document.getElementById("btnLogout");
     const btnUsuario = document.getElementById("btnUsuario");
     const btnRegister = document.getElementById("btnRegister");
     const adminLink = document.getElementById("adminLink");
-    // Mostrar nombre si está logueado
     if (btnUsuario && username) {
         btnUsuario.textContent = username;
     }
-    // Mostrar botón admin si corresponde
     if (adminLink) {
         adminLink.style.display = role === "admin" ? "block" : "none";
         adminLink.addEventListener("click", () => (window.location.href = "/admin"));
     }
-    // Navegación
     btnCarrito === null || btnCarrito === void 0 ? void 0 : btnCarrito.addEventListener("click", () => (window.location.href = "/carrito"));
     btnInicio === null || btnInicio === void 0 ? void 0 : btnInicio.addEventListener("click", () => (window.location.href = "/"));
-    // Login / Register
     btnUsuario === null || btnUsuario === void 0 ? void 0 : btnUsuario.addEventListener("click", () => {
         if (username) {
-            // aquí luego podrías llevar a perfil
+            // Aquí irá el perfil de usuario
         }
         else {
             window.location.href = "/login";
         }
     });
     if (btnRegister) {
-        btnRegister.style.display = username ? "none" : "block";
+        btnRegister.style.display = isLogged ? "none" : "block";
         btnRegister.addEventListener("click", () => (window.location.href = "/register"));
     }
-    // Logout
     if (btnLogout) {
-        btnLogout.style.display = username ? "block" : "none";
+        btnLogout.style.display = isLogged ? "block" : "none";
         btnLogout.addEventListener("click", () => __awaiter(void 0, void 0, void 0, function* () {
             yield fetch("/api/auth/logout", { method: "POST", credentials: "include" });
             localStorage.clear();
             window.location.href = "/";
         }));
     }
-    // Cargar productos
     function loadProducts() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const res = yield fetch("/api/products");
+                const res = yield fetch("/api/products", { credentials: "include" });
                 if (!res.ok)
                     throw new Error("Error al cargar productos");
                 const products = yield res.json();

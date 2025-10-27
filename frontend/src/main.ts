@@ -3,6 +3,7 @@ import { Product } from "./types/product";
 document.addEventListener("DOMContentLoaded", async () => {
   const role = localStorage.getItem("role");
   const username = localStorage.getItem("username");
+  const isLogged = Boolean(username);
 
   const btnCarrito = document.getElementById("btnCarrito") as HTMLButtonElement | null;
   const btnInicio = document.getElementById("btnInicio") as HTMLButtonElement | null;
@@ -11,38 +12,33 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnRegister = document.getElementById("btnRegister") as HTMLButtonElement | null;
   const adminLink = document.getElementById("adminLink");
 
-  // Mostrar nombre si está logueado
   if (btnUsuario && username) {
     btnUsuario.textContent = username;
   }
 
-  // Mostrar botón admin si corresponde
   if (adminLink) {
     adminLink.style.display = role === "admin" ? "block" : "none";
     adminLink.addEventListener("click", () => (window.location.href = "/admin"));
   }
 
-  // Navegación
   btnCarrito?.addEventListener("click", () => (window.location.href = "/carrito"));
   btnInicio?.addEventListener("click", () => (window.location.href = "/"));
 
-  // Login / Register
   btnUsuario?.addEventListener("click", () => {
     if (username) {
-      // aquí luego podrías llevar a perfil
+      // Aquí irá el perfil de usuario
     } else {
       window.location.href = "/login";
     }
   });
 
   if (btnRegister) {
-    btnRegister.style.display = username ? "none" : "block";
+    btnRegister.style.display = isLogged ? "none" : "block";
     btnRegister.addEventListener("click", () => (window.location.href = "/register"));
   }
 
-  // Logout
   if (btnLogout) {
-    btnLogout.style.display = username ? "block" : "none";
+    btnLogout.style.display = isLogged ? "block" : "none";
     btnLogout.addEventListener("click", async () => {
       await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
       localStorage.clear();
@@ -50,10 +46,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  // Cargar productos
   async function loadProducts() {
     try {
-      const res = await fetch("/api/products");
+      const res = await fetch("/api/products", { credentials: "include" });
       if (!res.ok) throw new Error("Error al cargar productos");
 
       const products: Product[] = await res.json();
