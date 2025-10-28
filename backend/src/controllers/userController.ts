@@ -1,5 +1,4 @@
 import type { Request, Response } from "express";
-import { pool } from "../config/db.ts";
 import { UserModel } from "../models/userModel.ts";
 
 export const promoteUser = async (req: Request, res: Response) => {

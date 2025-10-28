@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+import { productSchema } from "../schemas/productSchema.ts";
 import { ProductModel } from "../models/productModel.ts";
 
 export const listProducts = async (_req: Request, res: Response) => {
@@ -13,19 +14,19 @@ export const listProducts = async (_req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
-    const { name, description, price, stock, category, image_url } = req.body;
+    //Zod
+    const parseResult = productSchema.safeParse(req.body);
 
-    if (!name || !price)
-      return res.status(400).json({ error: "Faltan campos requeridos" });
+    if (!parseResult.success) {
+      return res.status(400).json({
+        error: "Datos invalidos",
+        details: parseResult.error.issues,
+      })
+    }
 
-    const product = await ProductModel.createProductModel(
-      name,
-      description ?? null,
-      Number(price),
-      stock ?? 0,
-      category ?? null,
-      image_url ?? null
-    );
+    const data = parseResult.data;
+
+    const product = await ProductModel.createProductModel(data);
 
     return res.status(201).json(product);
 

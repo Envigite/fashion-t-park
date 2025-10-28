@@ -20,11 +20,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middlewares globales
-app.use(helmet());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.disable("x-powered-by");
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "img-src": ["'self'", "data:", "https:"], // Permitir imágenes externas
+      },
+    },
+  })
+);
+
 
 // Archivos estáticos
 app.use(express.static(path.join(__dirname, "../../frontend/public")));

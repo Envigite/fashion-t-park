@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { pool } from "../config/db.ts";
+import { registerSchema, loginSchema } from "../schemas/authSchema.ts";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { UserModel } from "../models/userModel.ts";
@@ -17,25 +17,33 @@ export const registerUser = async (
 ) => {
   try {
 
-    const { username, email, password } = req.body;
+    const parsed = registerSchema.safeParse(req.body);
 
-    if (!username || !email || !password)
-      return res.status(400).json({ message: "Todos los campos son obligatorios" });
+    if (!parsed.success) {
+      return res.status(400).json({
+        error: "Datos inválidos",
+        details: parsed.error.issues,
+      });
+    }
 
-    const normalizedEmail = email.trim().toLowerCase();
-    const normalizedUsername = username.trim();
+    const { username, email, password } = parsed.data;
 
-    const existing = await UserModel.findByEmailOrUsername(
-      normalizedEmail, normalizedUsername
-    );
+    const existing = await UserModel.findByEmailOrUsername(email, username);
 
-    if (existing) return res.status(409).json({ error: "El usuario o email ya existen" });
+    if (existing) {
+      if (existing.email === email) {
+        return res.status(409).json({ error: "El correo ya está registrado" })
+      }
+      if (existing.username === username) {
+        return res.status(409).json({ error: "El nombre de usuario ya está en uso" })
+      }
+    }
 
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = await UserModel.createUser(
-      normalizedUsername,
-      normalizedEmail,
+      username,
+      email,
       passwordHash
     );
 
@@ -70,10 +78,17 @@ export const loginUser = async (
   req: Request<{}, {}, LoginBody>, 
   res: Response) => {
   try {
-    const { email, password } = req.body;
 
-    if (!email || !password)
-      return res.status(400).json({ message: "Email y contraseña son requeridos" });
+    const parsed = loginSchema.safeParse(req.body);
+
+    if (!parsed.success) {
+      return res.status(400).json({
+        error: "Datos inválidos",
+        details: parsed.error.issues,
+      });
+    }
+
+    const { email, password } = parsed.data;
 
     const user = await UserModel.findByEmail(email);
 

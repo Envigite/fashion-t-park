@@ -1,14 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
     "module": "ESNext",
+    "moduleResolution": "node",
+    "baseUrl": "./src",
     "rootDir": "./src",
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "paths": {
+      "*": ["./*"]
+    }
   },
   "include": ["src/**/*"]
 }

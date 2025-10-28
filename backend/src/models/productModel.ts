@@ -8,19 +8,26 @@ export const ProductModel = {
     return result.rows;
   },
 
-  createProductModel: async (
-    name: string,
-    description: string | null,
-    price: number,
-    stock: number,
-    category: string | null,
-    image_url: string | null
-  ) => {
+  createProductModel: async (data: {
+    name: string;
+    description?: string | null | undefined;
+    price: number;
+    stock?: number;
+    category?: string | null | undefined;
+    image_url?: string | null | undefined;
+  }) => {
     const result = await pool.query(
       `INSERT INTO products (name, description, price, stock, category, image_url)
        VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [name, description, price, stock, category, image_url]
+      [
+        data.name,
+        data.description ?? null,
+        data.price,
+        data.stock ?? 0,
+        data.category ?? null,
+        data.image_url ?? null
+      ]
     );
 
     return result.rows[0];

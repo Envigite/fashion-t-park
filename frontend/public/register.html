@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrarse | Fashion't Park</title>
+  <link rel="stylesheet" href="/assets/styles/output.css" />
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+  <form id="registerForm" class="bg-gray-800 p-6 rounded-lg w-80 flex flex-col gap-4">
+    <h2 class="text-xl text-center font-semibold">Crear cuenta</h2>
+
+    <input id="username" type="text" placeholder="Usuario" class="p-2 rounded text-white" required />
+    <input id="email" type="email" placeholder="Correo electrónico" class="p-2 rounded text-white" required />
+    <input id="password" type="password" placeholder="Contraseña" class="p-2 rounded text-white" required />
+
+    <button type="submit" class="bg-green-600 hover:bg-green-500 transition p-2 rounded text-white">
+      Registrarme
+    </button>
+
+    <p id="result" class="text-center text-sm"></p>
+  </form>
+
+  <script type="module" src="/dist/register.js"></script>
+</body>
+</html>
