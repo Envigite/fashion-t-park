@@ -12,6 +12,7 @@ import protectedRoutes from "./routes/protectedRoutes.ts";
 import pageRoutes from "./routes/pageRoutes.ts";
 import { authenticateJWT } from "./middlewares/authMiddleware.ts";
 import { authorizeRole } from "./middlewares/roleMiddleware.ts";
+import cartRoutes from "./routes/cartRoutes.ts";
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
@@ -44,6 +45,7 @@ app.use("/dist", express.static(path.join(__dirname, "../../frontend/dist")));
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/users", authenticateJWT, authorizeRole(["admin"]), userRoutes);
+app.use("/api/cart", cartRoutes);
 
 // Rutas protegidas de interfaz
 app.use("/admin", authenticateJWT, authorizeRole(["admin"]), protectedRoutes);
