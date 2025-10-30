@@ -1,4 +1,4 @@
-import { initNavbar } from "./ui/navbar.js";
+import { initNavbar } from "./navbar/navbar.js";
 import { loadProducts } from "./home/produc.js";
 document.addEventListener("DOMContentLoaded", () => {
     initNavbar();

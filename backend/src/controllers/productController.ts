@@ -35,3 +35,23 @@ export const createProduct = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "Error interno del servidor" });
   }
 }
+
+export const getProductById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+    return res.status(400).json({ error: "Falta el ID del producto" });
+    }
+    const product  = await ProductModel.getProductByIdModel(id);
+
+    if (!product) {
+      return res.status(404).json({ error: "Producto no encontrado" });
+    }
+
+    return res.status(200).json(product);
+  } catch (err) {
+    console.error("Error al obtener producto:", err);
+    return res.status(500).json({ error: "Error interno del servidor" });;
+  }
+};
+

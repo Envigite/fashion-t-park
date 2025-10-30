@@ -20,3 +20,7 @@ export const renderLogin = (_: Request, res: Response) => {
 export const renderRegister = (_: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../../frontend/public/register.html"));
 };
+
+export const renderProduct = (_: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../../frontend/public/product.html"));
+};

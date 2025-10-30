@@ -28,19 +28,21 @@ export function initCart(): void {
 
     cartContainer.innerHTML = items
       .map(
-        (item: any) => `
-        <div class="flex justify-between items-center bg-gray-800 p-3 rounded">
-          <div>
-            <p class="font-medium">${item.name}</p>
-            <p class="text-sm text-gray-400">$${item.price} × ${item.quantity}</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button class="qtyBtn bg-gray-600 hover:bg-gray-500 px-2 rounded" data-id="${item.product_id}" data-action="minus">−</button>
-            <span>${item.quantity}</span>
-            <button class="qtyBtn bg-gray-600 hover:bg-gray-500 px-2 rounded" data-id="${item.product_id}" data-action="plus">+</button>
-            <button class="deleteBtn bg-red-600 hover:bg-red-500 px-3 py-1 rounded" data-id="${item.product_id}">Eliminar</button>
-          </div>
-        </div>`
+        (item: any) =>
+      `<div class="flex justify-between items-center bg-white/80 backdrop-blur-md border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all">
+        <div>
+          <p class="font-medium text-slate-800">${item.name}</p>
+          <p class="text-sm text-slate-500">$${item.price} × ${item.quantity}</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button class="qtyBtn bg-slate-100 hover:bg-indigo-100 border border-slate-300 px-2 rounded transition" data-id="${item.product_id}" data-action="minus">−</button>
+          <span class="font-semibold text-slate-700">${item.quantity}</span>
+          <button class="qtyBtn bg-slate-100 hover:bg-indigo-100 border border-slate-300 px-2 rounded transition" data-id="${item.product_id}" data-action="plus">+</button>
+          <button class="deleteBtn bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white px-3 py-1 rounded-full shadow transition" data-id="${item.product_id}">
+            Eliminar
+          </button>
+        </div>
+      </div>`
       )
       .join("");
 
