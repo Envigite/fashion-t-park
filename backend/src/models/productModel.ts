@@ -36,5 +36,25 @@ export const ProductModel = {
   getProductByIdModel: async (id: string) => {
     const result = await pool.query("SELECT * FROM products WHERE id = $1", [id]);
     return result.rows[0] ?? null;
+  },
+
+  updateProductModel: async (id: string, data: Record<string, any>) => {
+  const fields = Object.keys(data);
+  if (!fields.length) return null;
+
+  const setQuery = fields.map((key, i) => `${key} = $${i + 2}`).join(", ");
+  const values = [id, ...Object.values(data)];
+
+  const result = await pool.query(
+    `UPDATE products SET ${setQuery} WHERE id = $1 RETURNING *`,
+    values
+  );
+
+  return result.rowCount ? result.rows[0] : null;
+  },
+
+  deleteProductModel: async (id: string) => {
+  const result = await pool.query("DELETE FROM products WHERE id = $1", [id]);
+  return (result.rowCount ?? 0) > 0;
   }
 };

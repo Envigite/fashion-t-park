@@ -36,6 +36,15 @@ app.use(
   })
 );
 
+// Redirigir accesos con .html a la ruta limpia
+app.use((req, res, next) => {
+  if (req.url.endsWith(".html") && !req.url.startsWith("/components/")) {
+    const cleanUrl = req.url.replace(/\.html$/, "");
+    return res.redirect(301, cleanUrl);
+  }
+  next();
+});
+
 
 // Archivos estáticos
 app.use(express.static(path.join(__dirname, "../../frontend/public")));
