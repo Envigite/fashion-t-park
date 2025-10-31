@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { renderIndex, renderCarrito, renderLogin, renderRegister, renderProduct } from "../controllers/pageController.ts";
+import { renderIndex, renderCarrito, renderLogin, renderRegister, renderProduct, renderProfile } from "../controllers/pageController.js";
 
 const router = Router();
 
@@ -8,6 +8,7 @@ router.get("/carrito", renderCarrito);
 router.get("/login", renderLogin);
 router.get("/register", renderRegister);
 router.get("/product", renderProduct);
+router.get("/profile", renderProfile);
 
 
 export default router;

@@ -1,4 +1,4 @@
-import { pool } from "../config/db.ts";
+import { pool } from "../config/db.js";
 
 export const UserModel = {
   findByEmailOrUsername: async (email: string, username: string) => {
@@ -64,6 +64,41 @@ export const UserModel = {
       ORDER BY created_at ASC`
     );
     return result.rows;
+  },
+
+  getUserById: async (id: string) => {
+    const result = await pool.query(
+      "SELECT username, email FROM users WHERE id = $1",
+      [id]
+    );
+    return result.rows[0] ?? null;
+  },
+
+  updateUser: async (id: string | undefined, username: string, password?: string) => {
+    const updates: string[] = [];
+    const values: any[] = [id];
+
+    if (username) {
+      updates.push(`username = $${values.length + 1}`);
+      values.push(username);
+    }
+
+    if (password) {
+      updates.push(`password_hash = $${values.length + 1}`);
+      values.push(password);
+    }
+
+    if (!updates.length) return null;
+
+    const query = `
+      UPDATE users
+      SET ${updates.join(", ")}
+      WHERE id = $1
+      RETURNING username, email
+    `;
+
+    const result = await pool.query(query, values);
+    return result.rows[0] ?? null;
   },
 
 };

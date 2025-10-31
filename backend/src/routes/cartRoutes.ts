@@ -4,8 +4,8 @@ import {
   addToCart,
   updateCartItem,
   removeCartItem,
-} from "../controllers/cartController.ts";
-import { authenticateJWT } from "../middlewares/authMiddleware.ts";
+} from "../controllers/cartController.js";
+import { authenticateJWT } from "../middlewares/authMiddleware.js";
 
 const router = Router();
 

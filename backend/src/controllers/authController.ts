@@ -1,16 +1,17 @@
 import type { Request, Response } from "express";
-import { registerSchema, loginSchema } from "../schemas/authSchema.ts";
+import { registerSchema, loginSchema, updateUserSchema } from "../schemas/authSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { UserModel } from "../models/userModel.ts";
-import type { LoginBody, RegisterBody } from "../types/auth.ts";
-import { isProduction } from "../utils/env.ts";
+import { UserModel } from "../models/userModel.js";
+import type { LoginBody, RegisterBody } from "../types/auth.js";
+import { isProduction } from "../utils/env.js";
+import type { AuthRequest } from "../middlewares/authMiddleware.js";
 
 const JWT_SECRET: string = process.env.JWT_SECRET!;
 const JWT_EXPIRES_IN: string = process.env.JWT_EXPIRES_IN || "30d";
 
 
-// ---------------- REGISTRO ----------------
+// ---------------- REGISTER ----------------
 export const registerUser = async (
   req: Request <{}, {}, RegisterBody>, 
   res: Response
@@ -133,3 +134,44 @@ export const logoutUser = (req: Request, res: Response) => {
 
   return res.status(200).json({ message: "Sesión cerrada" });
 };
+
+// ---------------- GET USER ID ----------------
+export const getUserProfile = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) return res.status(404).json({ error: "Usuario no encontrado" });
+    const user = await UserModel.getUserById(userId);
+    return res.json(user);
+  } catch (err) {
+    console.error("Error al obtener perfil:", err);
+    return res.status(500).json({ error: "Error interno del servidor" });
+  }
+};
+
+// ---------------- UPDATE ----------------
+export const updateUserProfile = async (req: AuthRequest, res: Response) => {
+  try {
+    const userId = req.user?.id;
+
+    const parseResult = updateUserSchema.safeParse(req.body)
+    if (!parseResult.success) {
+      return res.status(400).json({error: "Datos inválidos", details: parseResult.error.issues})
+    }
+
+    const { username, password } = parseResult.data;
+
+    if (!username) return res.status(400).json({ error: "El nombre de usuario es obligatorio" });
+
+    let hashedPassword: string | undefined = undefined;
+    if (password) hashedPassword = await bcrypt.hash(password, 10);
+
+    const updatedUser = await UserModel.updateUser(userId, username, hashedPassword);
+    if (!updatedUser) return res.status(404).json({ error: "Usuario no encontrado" });
+
+    return res.json(updatedUser);
+  } catch (err) {
+    console.error("Error al actualizar perfil:", err);
+    return res.status(500).json({ error: "Error al actualizar perfil" });
+  }
+};
+

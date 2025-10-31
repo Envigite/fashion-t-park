@@ -21,10 +21,10 @@ export function initUsers(): void {
         <div class="flex gap-2">
           ${
             u.role !== "admin"
-              ? `<button class="promote-btn px-2 py-1 bg-blue-600 text-white rounded" data-id="${u.id}">Promover</button>`
-              : `<button class="demote-btn px-2 py-1 bg-yellow-600 text-white rounded" data-id="${u.id}">Degradar</button>`
+              ? `<button class="cursor-pointer promote-btn px-2 py-1 bg-blue-600 text-white rounded" data-id="${u.id}">Promover</button>`
+              : `<button class="cursor-pointer demote-btn px-2 py-1 bg-yellow-600 text-white rounded" data-id="${u.id}">Degradar</button>`
           }
-          <button class="delete-btn px-2 py-1 bg-red-600 text-white rounded" data-id="${u.id}">Eliminar</button>
+          <button class="cursor-pointer delete-btn px-2 py-1 bg-red-600 text-white rounded" data-id="${u.id}">Eliminar</button>
         </div>
       </div>`
       )

@@ -24,3 +24,7 @@ export const renderRegister = (_: Request, res: Response) => {
 export const renderProduct = (_: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../../frontend/public/product.html"));
 };
+
+export const renderProfile = (_: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../../frontend/public/profile.html"));
+};

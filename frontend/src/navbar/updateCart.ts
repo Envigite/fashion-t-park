@@ -13,11 +13,11 @@ export async function updateCartCount() {
       badge.textContent = String(count);
       badge.classList.remove("hidden");
     } else {
-      badge.textContent = "0";
+      badge.textContent = "";
       badge.classList.add("hidden");
     }
   } catch {
-    badge.textContent = "0";
+    badge.textContent = "";
     badge.classList.add("hidden");
   }
 }

@@ -70,7 +70,6 @@ export async function initNavbar(): Promise<void> {
     });
   }
 
-  // 🔹 Lógica de autenticación y acciones
   const navbarActions = document.getElementById("navbarActions");
   const role = localStorage.getItem("role");
   const username = localStorage.getItem("username");
@@ -114,13 +113,7 @@ export async function initNavbar(): Promise<void> {
   btnCarrito?.addEventListener("click", () => (window.location.href = "/carrito"));
   btnInicio?.addEventListener("click", () => (window.location.href = "/"));
 
-  btnUsuario?.addEventListener("click", () => {
-    if (username) {
-      // perfil
-    } else {
-      window.location.href = "/login";
-    }
-  });
+  btnUsuario?.addEventListener("click", () => { window.location.href = "/profile" });
 
   if (btnRegister) {
     btnRegister.style.display = isLogged ? "none" : "block";
