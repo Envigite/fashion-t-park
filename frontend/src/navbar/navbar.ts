@@ -14,38 +14,36 @@ export async function initNavbar(): Promise<void> {
     return;
   }
 
-  // 🔹 Elementos del menú móvil
-  const btn = document.getElementById("menuToggle") as HTMLButtonElement | null;
-  const menu = document.getElementById("mobileMenu") as HTMLElement | null;
+  const menuToggle = document.getElementById("menuToggle") as HTMLButtonElement | null;
+  const mobileMenu = document.getElementById("mobileMenu") as HTMLElement | null;
   const overlay = document.getElementById("menuOverlay") as HTMLElement | null;
 
-  if (btn && menu && overlay) {
-    // Funciones reutilizables
+  if (menuToggle && mobileMenu && overlay) {
     const openMenu = () => {
-      menu.classList.remove("opacity-0", "pointer-events-none", "-translate-y-2");
-      menu.classList.add("opacity-100", "translate-y-0");
+      mobileMenu.classList.remove("opacity-0", "pointer-events-none", "-translate-y-2");
+      mobileMenu.classList.add("opacity-100", "translate-y-0");
 
       overlay.classList.remove("opacity-0", "pointer-events-none");
       overlay.classList.add("opacity-100");
 
       document.body.style.overflow = "hidden";
-      btn.setAttribute("aria-expanded", "true");
+      menuToggle.setAttribute("aria-expanded", "true");
     };
 
     const closeMenu = () => {
-      menu.classList.remove("opacity-100", "translate-y-0");
-      menu.classList.add("opacity-0", "pointer-events-none", "-translate-y-2");
+      mobileMenu.classList.remove("opacity-100", "translate-y-0");
+      mobileMenu.classList.add("opacity-0", "pointer-events-none", "-translate-y-2");
 
       overlay.classList.remove("opacity-100");
       overlay.classList.add("opacity-0", "pointer-events-none");
 
       document.body.style.overflow = "";
-      btn.setAttribute("aria-expanded", "false");
+      menuToggle.setAttribute("aria-expanded", "false");
     };
 
     // Alternar menú
-    btn.addEventListener("click", () => {
-      const isClosed = menu.classList.contains("opacity-0");
+    menuToggle.addEventListener("click", () => {
+      const isClosed = mobileMenu.classList.contains("opacity-0");
       isClosed ? openMenu() : closeMenu();
     });
 
@@ -58,7 +56,7 @@ export async function initNavbar(): Promise<void> {
     });
 
     // Cerrar al hacer clic en un enlace del menú
-    menu.addEventListener("click", (e) => {
+    mobileMenu.addEventListener("click", (e) => {
       const t = e.target as HTMLElement;
       if (t.tagName === "A") closeMenu();
     });
@@ -66,9 +64,9 @@ export async function initNavbar(): Promise<void> {
     // Cerrar al hacer clic fuera del menú y botón
     document.addEventListener("click", (e) => {
       const target = e.target as Node;
-      const isOpen = !menu.classList.contains("pointer-events-none");
+      const isOpen = !mobileMenu.classList.contains("pointer-events-none");
       if (!isOpen) return;
-      if (!menu.contains(target) && !btn.contains(target)) closeMenu();
+      if (!mobileMenu.contains(target) && !menuToggle.contains(target)) closeMenu();
     });
   }
 
@@ -87,12 +85,24 @@ export async function initNavbar(): Promise<void> {
 
   updateCartCount();
 
-  if (currentPath === "/carrito" && navbarActions) {
+  const searchBar = document.getElementById("searchBar");
+
+  if (currentPath === "/carrito") {
+    if (navbarActions) {
     navbarActions.innerHTML = `
       <a href="/" class="text-sm font-medium px-4 py-2 bg-white border border-slate-300 rounded-full hover:bg-indigo-50 hover:border-indigo-400 hover:text-indigo-700 transition-all shadow-sm">
         Seguir comprando
       </a>`;
+    }
+    if (searchBar) searchBar.style.display = "none"
   }
+
+  if (currentPath === "/admin/edit") {
+    if (searchBar) searchBar.style.display = "none"
+    if (btnCarrito) btnCarrito.style.display = "none"
+  }
+
+  if (currentPath === "/product") if (searchBar) searchBar.style.display = "none"
 
   if (btnUsuario && username) btnUsuario.textContent = username;
 
