@@ -47,8 +47,13 @@ app.use((req, res, next) => {
 
 
 // Archivos estáticos
-app.use(express.static(path.join(__dirname, "../../frontend/public")));
-app.use("/dist", express.static(path.join(__dirname, "../../frontend/dist")));
+const publicPath = path.resolve(__dirname, "../../frontend/public");
+const distPath = path.resolve(__dirname, "../../frontend/dist");
+
+app.use("/assets", express.static(path.join(publicPath, "assets")));
+app.use("/dist", express.static(distPath));
+app.use(express.static(publicPath));
+
 
 // API
 app.use("/api/auth", authRoutes);
