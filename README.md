@@ -64,6 +64,20 @@ backend completas, el consumo e integración de APIs REST, la gestión de servid
    ```bash
    git clone https://github.com/Envigite/fashion-t-park.git
 
+## Instala depencencias en cada carpeta
+
+```bash
+cd ./backend && npm install
+```
+
+```bash
+cd ./frontend && npm install
+```
+
+---
+
+## Ejecuta backend y frontend
+npm run dev
 
 
 
