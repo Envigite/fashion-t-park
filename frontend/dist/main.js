@@ -1,7 +1,9 @@
 import { initNavbar } from "./navbar/navbar.js";
 import { loadProducts } from "./products/produc.js";
-document.addEventListener("DOMContentLoaded", () => {
+import { setupProductEvents } from "./products/productEvents.js";
+document.addEventListener("DOMContentLoaded", async () => {
     initNavbar();
-    loadProducts();
+    await loadProducts();
+    setupProductEvents();
 });
 //# sourceMappingURL=main.js.map

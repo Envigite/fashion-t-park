@@ -1,7 +1,9 @@
 import { initNavbar } from "./navbar/navbar.js";
 import { loadProducts } from "./products/produc.js";
+import { setupProductEvents } from "./products/productEvents.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   initNavbar();
-  loadProducts();
+  await loadProducts();
+  setupProductEvents();
 });
