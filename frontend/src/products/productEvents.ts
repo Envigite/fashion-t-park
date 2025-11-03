@@ -1,5 +1,6 @@
 import { loadProducts } from "./produc.js";
 import { updateCartCount } from "../navbar/updateCart.js";
+import { handleExpiredToken } from "../utils/auth.js";
 
 export async function setupProductEvents() {
     
@@ -29,6 +30,8 @@ container.addEventListener("click", async (e) => {
         body: JSON.stringify({ product_id: productId, quantity: 1 }),
       });
 
+      if (handleExpiredToken(res)) return;
+
       if (!res.ok) {
         if (res.status === 401 || res.status === 403) return (window.location.href = "/login");
         const data = await res.json().catch(() => ({}));
@@ -57,6 +60,8 @@ container.addEventListener("click", async (e) => {
         method: "DELETE",
         credentials: "include",
       });
+
+      if (handleExpiredToken(res)) return;
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));

@@ -1,3 +1,4 @@
+import { handleExpiredToken } from "../utils/auth.js";
 import { updateCartCount } from "./updateCart.js";
 
 export async function initNavbar(): Promise<void> {
@@ -78,7 +79,7 @@ export async function initNavbar(): Promise<void> {
   const btnCarrito = document.getElementById("btnCarrito");
   const btnInicio = document.getElementById("btnInicio");
   const btnLogout = document.getElementById("btnLogout");
-  const btnUsuario = document.getElementById("btnUsuario");
+  const btnUsuario = document.getElementById("btnUsuario") as HTMLButtonElement | null;
   const btnRegister = document.getElementById("btnRegister");
   const adminLink = document.getElementById("adminLink");
 
@@ -113,16 +114,33 @@ export async function initNavbar(): Promise<void> {
   btnCarrito?.addEventListener("click", () => (window.location.href = "/carrito"));
   btnInicio?.addEventListener("click", () => (window.location.href = "/"));
 
-  btnUsuario?.addEventListener("click", () => {
-    if (username) {
-      window.location.href = "/profile"
-      return;
-    }
-    
-    window.location.href = "/login"
+  btnUsuario?.addEventListener("click", async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-    if (adminLink) adminLink.style.display = "none"
-    btnUsuario.textContent = "Iniciar Sesión"
+    btnUsuario.disabled = true;
+
+    try {
+      const res = await fetch("/api/auth/check", { credentials: "include" });
+
+      if (res.status === 401 || res.status === 403) {
+        localStorage.clear();
+        if (adminLink) adminLink.style.display = "none";
+        btnUsuario.textContent = "Iniciar Sesión";
+        window.location.href = "/login";
+        return;
+      }
+
+      if (handleExpiredToken(res)) return;
+      window.location.href = "/profile"
+    } catch {
+      localStorage.clear();
+      if (adminLink) adminLink.style.display = "none"
+      btnUsuario.textContent = "Iniciar Sesión"
+      window.location.href = "/login"
+    } finally {
+      btnUsuario.disabled = false
+    }
   })
 
   if (btnRegister) {

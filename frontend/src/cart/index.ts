@@ -8,7 +8,7 @@ export function initCart(): void {
   // Cargar el carrito
   async function loadCart() {
     if (!cartContainer || !totalElement) return;
-    console.log("Cargando carrito…");
+    try {
     const res = await fetch("/api/cart", { credentials: "include" });
 
     if (!res.ok) {
@@ -47,6 +47,9 @@ export function initCart(): void {
       .join("");
 
     totalElement.textContent = `Total: $${total.toLocaleString("es-CL")}`;
+     } catch {
+      cartContainer.innerHTML = "<p>No hay sesión activa.</p>";
+    }
   }
 
   // Manejar clics del div

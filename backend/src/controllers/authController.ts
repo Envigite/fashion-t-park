@@ -175,3 +175,7 @@ export const updateUserProfile = async (req: AuthRequest, res: Response) => {
   }
 };
 
+export const checkUserProfile = async (req: AuthRequest, res: Response) => {
+  res.status(200).json({ message: "Token válido", user: req.user })
+}
+
