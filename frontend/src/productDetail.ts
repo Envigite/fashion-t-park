@@ -42,7 +42,7 @@ async function loadProductDetail() {
           </h1>
           <p class="text-slate-600 text-sm sm:text-base mb-4">${description}</p>
           <p class="text-2xl font-semibold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            $${product.price}
+            $${Math.trunc(product.price).toLocaleString("es-CL")}
           </p>
           <div class="text-sm text-slate-500 space-y-1">
             <p><span class="font-semibold">Categoría:</span> ${category}</p>

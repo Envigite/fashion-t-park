@@ -44,7 +44,7 @@ export async function loadProducts(): Promise<void> {
 
           <div class="mt-3 sm:mt-4 space-y-1.5">
             <p class="text-xl sm:text-2xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-              $${p.price}
+              $${Math.trunc(p.price).toLocaleString("es-CL")}
             </p>
             <p class="text-[11px] sm:text-xs text-slate-400">Stock: ${p.stock ?? "N/A"}</p>
             <p class="text-[11px] sm:text-xs text-slate-400">Categoría: ${p.category ?? "General"}</p>
