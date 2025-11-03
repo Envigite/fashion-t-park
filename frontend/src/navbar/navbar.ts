@@ -113,7 +113,13 @@ export async function initNavbar(): Promise<void> {
   btnCarrito?.addEventListener("click", () => (window.location.href = "/carrito"));
   btnInicio?.addEventListener("click", () => (window.location.href = "/"));
 
-  btnUsuario?.addEventListener("click", () => { window.location.href = "/profile" });
+  btnUsuario?.addEventListener("click", () => {
+    if (username) {
+      window.location.href = "/profile"
+    } else {
+      window.location.href = "/login"
+    }
+  })
 
   if (btnRegister) {
     btnRegister.style.display = isLogged ? "none" : "block";
