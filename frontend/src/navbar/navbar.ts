@@ -116,9 +116,13 @@ export async function initNavbar(): Promise<void> {
   btnUsuario?.addEventListener("click", () => {
     if (username) {
       window.location.href = "/profile"
-    } else {
-      window.location.href = "/login"
+      return;
     }
+    
+    window.location.href = "/login"
+
+    if (adminLink) adminLink.style.display = "none"
+    btnUsuario.textContent = "Iniciar Sesión"
   })
 
   if (btnRegister) {
